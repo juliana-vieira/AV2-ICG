@@ -6,7 +6,8 @@ float posicaoX, posicaoY, posicao2X, posicao2Y = 0;
 // Tamanho e posição inicial da bola
 GLfloat xbola = 100.0f;
 GLfloat ybola = 150.0f;
-GLsizei tamBola = 5;
+GLsizei alturaBola = 5;
+GLsizei larguraBola = 5;
 
 //Tamanho e posição inicial do jogador 1
 GLfloat xJogador1 = 20.0f;
@@ -71,16 +72,16 @@ void eventoTeclado(unsigned char tecla, int x, int y)
 {
     switch (tecla) {
     case 'w':
-        posicaoY += 10.0;
+        yJogador1 += 10.0;
         break;
     case 's':
-        posicaoY -= 10.0;
+        yJogador1 -= 10.0;
         break;
     case 'r':
-        posicao2Y += 10.0;
+        yJogador2 += 10.0;
         break;
     case 'f':
-        posicao2Y -= 10.0;
+        yJogador2 -= 10.0;
         break;
     case 27:
         exit(0);
@@ -92,10 +93,10 @@ void eventoTeclado(unsigned char tecla, int x, int y)
 
 void bola(){
     glBegin(GL_QUADS);
-        glVertex2i(xbola,ybola+tamBola);
+        glVertex2i(xbola,ybola+alturaBola);
         glVertex2i(xbola,ybola);
-        glVertex2i(xbola+tamBola,ybola);
-        glVertex2i(xbola+tamBola,ybola+tamBola);
+        glVertex2i(xbola+larguraBola,ybola);
+        glVertex2i(xbola+larguraBola,ybola+alturaBola);
      glEnd();
 }
 
@@ -146,27 +147,37 @@ void desenhar(void)
 // Função callback chamada pela GLUT a cada intervalo de tempo
 void timer(int id)
 {
-    // Muda a direção quando chega na borda esquerda ou direita
-    if(xbola > windowWidth-tamBola || xbola < 0)
-            xstep = -xstep;
+    if(xbola < xJogador1 + larguraJogador1 &&
+    xbola + larguraBola > xJogador1 &&
+    ybola < yJogador1 + alturaJogador1 &&
+    ybola + alturaBola > yJogador1)
+    {
+        xstep = -xstep;
+    }
 
-    // Muda a direção quando chega na borda superior ou inferior
-    if(ybola > windowHeight-tamBola || ybola < 0)
+    if(xbola < xJogador2 + larguraJogador2 &&
+    xbola + larguraBola > xJogador2 &&
+    ybola < yJogador2 + alturaJogador2 &&
+    ybola + alturaBola > yJogador2)
+    {
+        xstep = -xstep;
+    }
+
+    if(xbola > windowWidth-larguraBola || xbola < 0)
+          glutTimerFunc(33, NULL, 1);
+
+    if(ybola > windowHeight-alturaBola || ybola < 0)
           ystep = -ystep;
 
-    // Verifica as bordas.  Se a window for menor e o
-    // quadrado sair do volume de visualização
-    if(xbola > windowWidth-tamBola)
-         xbola = windowWidth-tamBola-1;
+    if(xbola > windowWidth-larguraBola)
+         xbola = windowWidth-larguraBola-1;
 
-    if(ybola > windowHeight-tamBola)
-         ybola = windowHeight-tamBola-1;
+    if(ybola > windowHeight-alturaBola)
+         ybola = windowHeight-alturaBola-1;
 
-    // Move o quadrado
     xbola += xstep;
     ybola += ystep;
 
-    // Redesenha o quadrado com as novas coordenadas
     glutPostRedisplay();
     glutTimerFunc(33, timer, 1);
 }
@@ -176,20 +187,15 @@ void inicializar(void)
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-// Função callback chamada quando o tamanho da janela é alterado
 void alteraTamanhoJanela(GLsizei w, GLsizei h)
 {
-     // Evita a divisao por zero
      if(h == 0) h = 1;
 
-     // Especifica as dimensões da Viewport
      glViewport(0, 0, w, h);
 
-     // Inicializa o sistema de coordenadas
      glMatrixMode(GL_PROJECTION);
      glLoadIdentity();
 
-     // Estabelece a janela de seleção (left, right, bottom, top)
      if (w <= h)  {
 		windowHeight = 250.0f*h/w;
 		windowWidth = 250.0f;
