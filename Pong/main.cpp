@@ -72,16 +72,16 @@ void eventoTeclado(unsigned char tecla, int x, int y)
 {
     switch (tecla) {
     case 'w':
-        yJogador1 += 10.0;
+        yJogador1 += 15.0;
         break;
     case 's':
-        yJogador1 -= 10.0;
+        yJogador1 -= 15.0;
         break;
     case 'r':
-        yJogador2 += 10.0;
+        yJogador2 += 15.0;
         break;
     case 'f':
-        yJogador2 -= 10.0;
+        yJogador2 -= 15.0;
         break;
     case 27:
         exit(0);
@@ -144,7 +144,6 @@ void desenhar(void)
      glutSwapBuffers();
 }
 
-// Função callback chamada pela GLUT a cada intervalo de tempo
 void timer(int id)
 {
     if(xbola < xJogador1 + larguraJogador1 &&
@@ -153,6 +152,9 @@ void timer(int id)
     ybola + alturaBola > yJogador1)
     {
         xstep = -xstep;
+        ystep = -ystep;
+        xstep++;
+        ystep++;
     }
 
     if(xbola < xJogador2 + larguraJogador2 &&
@@ -161,13 +163,16 @@ void timer(int id)
     ybola + alturaBola > yJogador2)
     {
         xstep = -xstep;
+        ystep = -ystep;
     }
 
-    if(xbola > windowWidth-larguraBola || xbola < 0)
+    if(xbola > windowWidth-larguraBola || xbola < 0){
           glutTimerFunc(33, NULL, 1);
+    }
 
-    if(ybola > windowHeight-alturaBola || ybola < 0)
-          ystep = -ystep;
+    if(ybola > windowHeight-alturaBola || ybola < 0){
+         ystep = -ystep;
+    }
 
     if(xbola > windowWidth-larguraBola)
          xbola = windowWidth-larguraBola-1;
@@ -177,6 +182,7 @@ void timer(int id)
 
     xbola += xstep;
     ybola += ystep;
+    yJogador1 += ystep-0.03;
 
     glutPostRedisplay();
     glutTimerFunc(33, timer, 1);
