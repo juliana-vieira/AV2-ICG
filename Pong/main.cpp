@@ -3,26 +3,26 @@
 
 float posicaoX, posicaoY, posicao2X, posicao2Y = 0;
 
-// Tamanho e posição inicial da bola
+// Tamanho e posiÃ§Ã£o inicial da bola
 GLfloat xbola = 100.0f;
 GLfloat ybola = 150.0f;
 GLsizei alturaBola = 5;
 GLsizei larguraBola = 5;
 
-//Tamanho e posição inicial do jogador 1
+//Tamanho e posiÃ§Ã£o inicial do jogador 1
 GLfloat xJogador1 = 20.0f;
 GLfloat yJogador1 = 120.0f;
 GLsizei alturaJogador1 = 33;
 GLsizei larguraJogador1 = 8;
 
-//Tamanho e posição inicial do jogador 1
+//Tamanho e posiÃ§Ã£o inicial do jogador 1
 GLfloat xJogador2 = 300.0f;
 GLfloat yJogador2 = 120.0f;
 GLsizei alturaJogador2 = 33;
 GLsizei larguraJogador2 = 8;
 
-// Tamanho do incremento nas direções x e y
-// (número de pixels para se mover a cada
+// Tamanho do incremento nas direÃ§Ãµes x e y
+// (nÃºmero de pixels para se mover a cada
 // intervalo de tempo)
 GLfloat xstep = 2.0f;
 GLfloat ystep = 2.0f;
@@ -30,43 +30,6 @@ GLfloat ystep = 2.0f;
 // Largura e altura da janela
 GLfloat windowWidth;
 GLfloat windowHeight;
-
-
-/*void campo(){
-    glBegin(GL_QUADS);
-    //linha direita
-    glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex2f(10.0f, -0.85f);
-        glVertex2f(0.98f, -0.85f);
-        glVertex2f(0.98f, 0.85f);
-        glVertex2f(10.0f, 0.85f);
-    glEnd();
-    //linha esquerda
-    glBegin(GL_QUADS);
-    glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex2f(-10.0f, -0.85f);
-        glVertex2f(-0.98f, -0.85f);
-        glVertex2f(-0.98f, 0.85f);
-        glVertex2f(-10.0f, 0.85f);
-    glEnd();
-    //linha superior
-    glBegin(GL_QUADS);
-    glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex2f(-10.0f, 0.9f);
-        glVertex2f(-10.0f, 0.85f);
-        glVertex2f(10.0f, 0.9f);
-        glVertex2f(10.0f, 0.85f);
-    glEnd();
-    //linha inferior
-    glBegin(GL_QUADS);
-    glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex2f(-10.0f, -0.9f);
-        glVertex2f(-10.0f, -0.85f);
-        glVertex2f(10.0f, -0.9f);
-        glVertex2f(10.0f, -0.85f);
-    glEnd();
-}*/
-
 
 void eventoTeclado(unsigned char tecla, int x, int y)
 {
@@ -182,6 +145,8 @@ void timer(int id)
 
     xbola += xstep;
     ybola += ystep;
+	
+    //IA simples
     yJogador1 += ystep-0.03;
 
     glutPostRedisplay();
